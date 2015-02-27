@@ -19,6 +19,13 @@ login_response = client.call(:do_login_enc, message: { 'userLogin' => cnf['user'
                                                        'localVersion' => local_versioon_response.hash[:envelope][:body][:do_query_sys_status_response][:ver_key] })
 
 search_response = client.call(:do_search, message: { 'sessionHandle' => login_response.hash[:envelope][:body][:do_login_enc_response][:session_handle_part],
-                                                     'searchQuery' => { 'searchString' => 'ipad'} })
+                                                     'searchQuery' => { 'searchString' => 'Niezwykłe liczby fibonacciego',
+                                                                        'searchOptions' => 8,
+                                                                        'searchOrder' => 4,
+                                                                        #Using searchLimit parameter we dont have guarantee that the offert will be the best
+                                                                        'searchLimit' => 10
+                                                                      } 
+                                                   }
+                             )
 
-puts search_response.hash
+puts search_response.hash[:envelope][:body][:do_search_response][:search_array][:item].inspect
