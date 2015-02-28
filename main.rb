@@ -21,6 +21,7 @@ login_response = client.call(:do_login_enc, message: { 'userLogin' => cnf['user'
 search_response = client.call(:do_search, message: { 'sessionHandle' => login_response.hash[:envelope][:body][:do_login_enc_response][:session_handle_part],
                                                      'searchQuery' => { 'searchString' => 'Niezwykłe liczby fibonacciego',
                                                                         'searchOptions' => 8,
+                                                                        'searchOptions' => 32768,
                                                                         'searchOrder' => 4,
                                                                         #Using searchLimit parameter we dont have guarantee that the offert will be the best
                                                                         'searchLimit' => 10
@@ -28,4 +29,6 @@ search_response = client.call(:do_search, message: { 'sessionHandle' => login_re
                                                    }
                              )
 
-puts search_response.hash[:envelope][:body][:do_search_response][:search_array][:item].inspect
+search_response.hash[:envelope][:body][:do_search_response][:search_array][:item].each do |item|
+  puts "ID: #{item[:s_it_id]}, name: #{item[:s_it_name]}, price: #{item[:s_it_buy_now_price]}, shipping price: #{item[:s_it_postage]}, seller ID: #{item[:s_it_seller_info][:seller_id]}"
+end
